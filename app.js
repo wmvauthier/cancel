@@ -1,7 +1,17 @@
-/* importar as configurações do servidor */
-var app = require('./config/server');
+var express = require('express'); 
+var app = express();
+var gpio = require('rpi-gpio');
 
-/* parametrizar a porta de escuta */
-app.listen(5000, function () {
-	console.log('Bem Vindo ao Gama!');
+gpio.setup(7, gpio.DIR_OUT);
+
+app.get('/actCancel', function(req, res){
+gpio.write(7, true, function(err) {
+        if (err) throw err;
+        console.log('Cancela Liberada');
+    });
+
 });
+
+app.listen(2000, function () {
+  console.log('Bem vindo ao Cancel!')
+})
